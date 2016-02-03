@@ -56,7 +56,7 @@ class NightClubRestListener implements ListenerAggregateInterface,
             /** @var $router RouteInterface */
             $router = $serviceLocator->get('Router');
             $url = $router->assemble(
-                ['user_id' => $id],
+                ['nightclub_id' => $id],
                 ['name' => 'api-rest/nightclub/cover', 'force_canonical' => true]
             );
 
