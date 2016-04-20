@@ -109,7 +109,7 @@ return [
             'input_filter' => 'NightClubCoverInputFilter',
         ],
     ],
-    'input_filter_specs' => [
+    'strapieno_input_filter_specs' => [
         'NightClubCoverInputFilter' => [
             [
                 'name' => 'blob',
