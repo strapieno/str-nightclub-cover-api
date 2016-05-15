@@ -60,7 +60,8 @@ class NightClubRestListener implements ListenerAggregateInterface,
                 ['name' => 'api-rest/nightclub/cover', 'force_canonical' => true]
             );
 
-            $nightClub->setCover($url);
+            $now = new \DateTime();
+            $nightClub->setCover($url . '?lastUpdate=' . $now->getTimestamp());
             $nightClub->save();
         }
     }
