@@ -74,7 +74,8 @@ return [
             ],
             'page_size' => 10,
             'page_size_param' => 'page_size',
-            'collection_class' => 'Zend\Paginator\Paginator'
+            'collection_class' => 'Zend\Paginator\Paginator',
+            'entity_class' => 'Strapieno\NightClubCover\Model\Entity\NightClubEntity'
         ]
     ],
     'zf-content-negotiation' => [
@@ -91,19 +92,16 @@ return [
             ],
         ],
     ],
-    /*
-     'zf-hal' => [
+    'zf-hal' => [
         // map each class (by name) to their metadata mappings
         'metadata_map' => [
-            'Strapieno\User\Model\Entity\UserEntity' => [
+            'Strapieno\NightClubCover\Model\Entity\NightClubEntity' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'api-rest/user',
-                'route_identifier_name' => 'user_id',
-                'hydrator' => 'UserApiHydrator'
+                'route_name' => 'api-rest/nightclub/cover',
+                'route_identifier_name' => 'nightclub_id'
             ],
         ],
     ],
-    */
     'zf-content-validation' => [
         'Strapieno\NightClubCover\Api\V1\Rest\Controller' => [
             'input_filter' => 'NightClubCoverInputFilter',
