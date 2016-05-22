@@ -17,7 +17,8 @@
     "matryoshka-model/mongo-wrapper": "0.8.*@dev",
     "matryoshka-model/zf2-matryoshka-module": "0.8.*@dev",
     "matryoshka-model/zf-apigility-matryoshka": "dev-develop",
-    "strapieno/str-nightclub-cover-model" : "dev-develop"
+    "strapieno/str-nightclub-cover-model" : "dev-develop",
+    "strapieno/str-nightclub-api": "dev-develop"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.7",

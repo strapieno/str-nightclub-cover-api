@@ -1,5 +1,9 @@
 <?php
 return [
+    // Config of nightclub_id in route exist
+    'nightclub-not-found' => [
+        'api-rest/nightclub/cover'
+    ],
     'service_manager' => [
         'factories' => [
             'Strapieno\Utils\Listener\ListenerManager' => 'Strapieno\Utils\Listener\ListenerManagerFactory'
