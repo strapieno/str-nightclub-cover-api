@@ -1,10 +1,13 @@
 <?php
 namespace Strapieno\NightClubCover\Api\Listener;
 
+use ImgMan\Image\SrcAwareInterface;
 use Matryoshka\Model\Object\ActiveRecord\ActiveRecordInterface;
+use Matryoshka\Model\Object\IdentityAwareInterface;
 use Matryoshka\Model\Wrapper\Mongo\Criteria\ActiveRecord\ActiveRecordCriteria;
 use Strapieno\NightClub\Model\NightClubModelAwareInterface;
 use Strapieno\NightClub\Model\NightClubModelAwareTrait;
+use Strapieno\NightClubCover\Model\Entity\CoverAwareInterface;
 use Strapieno\NightClubCover\Model\Entity\NightClubCoverAwareInterface;
 use Strapieno\User\Model\Entity\UserInterface;
 use Strapieno\User\Model\UserModelAwareInterface;
@@ -14,9 +17,11 @@ use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\ListenerAggregateTrait;
+use Zend\Mvc\Router\Http\RouteInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use ZF\Rest\ResourceEvent;
 
 /**
  * Class NightClubRestListener
@@ -34,14 +39,14 @@ class NightClubRestListener implements ListenerAggregateInterface,
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach('update.post', [$this, 'onPostUpdate']);
-        $this->listeners[] = $events->attach('delete.post', [$this, 'onPostDelete']);
+        $this->listeners[] = $events->attach('update', [$this, 'onPostUpdate']);
+        $this->listeners[] = $events->attach('delete', [$this, 'onPostDelete']);
     }
 
     /**
-     * @param Event $e
+     * @param ResourceEvent $e
      */
-    public function onPostUpdate(Event $e)
+    public function onPostUpdate(ResourceEvent $e)
     {
         $serviceLocator = $this->getServiceLocator();
         if ($serviceLocator instanceof AbstractPluginManager) {
@@ -50,32 +55,24 @@ class NightClubRestListener implements ListenerAggregateInterface,
 
         $id  = $e->getParam('id');
         $nightClub = $this->getNightClubFromId($id);
+        $image = $e->getParam('image');
+        if ($nightClub instanceof CoverAwareInterface && $nightClub instanceof ActiveRecordInterface) {
 
-        if ($nightClub instanceof NightClubCoverAwareInterface && $nightClub instanceof ActiveRecordInterface) {
-
-            /** @var $router RouteInterface */
-            $router = $serviceLocator->get('Router');
-            $url = $router->assemble(
-                ['nightclub_id' => $id],
-                ['name' => 'api-rest/nightclub/cover', 'force_canonical' => true]
-            );
-
-            $now = new \DateTime();
-            $nightClub->setCover($url . '?lastUpdate=' . $now->getTimestamp());
+            $nightClub->setCover($this->getUrlFromImage($image, $serviceLocator));
             $nightClub->save();
         }
     }
 
     /**
-     * @param Event $e
+     * @param ResourceEvent $e
      */
-    public function onPostDelete(Event $e)
+    public function onPostDelete(ResourceEvent $e)
     {
 
         $id  = $e->getParam('id');
         $nightClub = $this->getNightClubFromId($id);
 
-        if ($nightClub instanceof NightClubCoverAwareInterface && $nightClub instanceof ActiveRecordInterface) {
+        if ($nightClub instanceof CoverAwareInterface && $nightClub instanceof ActiveRecordInterface) {
 
             $nightClub->setCover(null);
             $nightClub->save();
@@ -90,5 +87,28 @@ class NightClubRestListener implements ListenerAggregateInterface,
     {
         return $this->getNightClubModelService()->find((new ActiveRecordCriteria())->setId($id))->current();
 
+    }
+
+    /**
+     * @param IdentityAwareInterface $image
+     * @param $serviceLocator
+     * @return string
+     */
+    protected function getUrlFromImage(IdentityAwareInterface $image, $serviceLocator)
+    {
+        $now = new \DateTime();
+        if ($image instanceof SrcAwareInterface && $image->getSrc()) {
+
+            return $image->getSrc(). '?lastUpdate=' . $now->getTimestamp();
+        }
+
+        /** @var $router RouteInterface */
+        $router = $serviceLocator->get('Router');
+        $url = $router->assemble(
+            ['user_id' => $image->getId()],
+            ['name' => 'api-rest/user/avatar', 'force_canonical' => true]
+        );
+
+        return $url . '?lastUpdate=' . $now->getTimestamp();
     }
 }

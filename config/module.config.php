@@ -9,7 +9,7 @@ return [
             'Strapieno\Utils\Listener\ListenerManager' => 'Strapieno\Utils\Listener\ListenerManagerFactory'
         ],
         'invokables' => [
-            'Strapieno\Utils\Delegator\AttachListenerDelegator' =>  'Strapieno\Utils\Delegator\AttachListenerDelegator'
+            'Strapieno\Utils\Delegator\AttachRestResourceListenerDelegator' => 'Strapieno\Utils\Delegator\AttachRestResourceListenerDelegator'
         ],
         'aliases' => [
             'listenerManager' => 'Strapieno\Utils\Listener\ListenerManager'
@@ -25,7 +25,7 @@ return [
                 => 'Strapieno\NightClubCover\Api\Listener\NightClubRestListener'
         ]
     ],
-    'attach-listeners' => [
+    'attach-resource-listeners' => [
         'Strapieno\NightClubCover\Api\V1\Rest\Controller' => [
             'Strapieno\NightClubCover\Api\Listener\NightClubRestListener'
         ]
@@ -33,7 +33,7 @@ return [
     'controllers' => [
         'delegators' => [
             'Strapieno\NightClubCover\Api\V1\Rest\Controller' => [
-                'Strapieno\Utils\Delegator\AttachListenerDelegator',
+                'Strapieno\Utils\Delegator\AttachRestResourceListenerDelegator',
             ]
         ],
     ],
@@ -79,7 +79,7 @@ return [
             'page_size' => 10,
             'page_size_param' => 'page_size',
             'collection_class' => 'Zend\Paginator\Paginator',
-            'entity_class' => 'Strapieno\NightClubCover\Model\Entity\NightClubEntity'
+            'entity_class' => 'Strapieno\NightClubCover\Model\Entity\CoverEntity'
         ]
     ],
     'zf-content-negotiation' => [
@@ -99,7 +99,7 @@ return [
     'zf-hal' => [
         // map each class (by name) to their metadata mappings
         'metadata_map' => [
-            'Strapieno\NightClubCover\Model\Entity\NightClubEntity' => [
+            'Strapieno\NightClubCover\Model\Entity\CoverEntity' => [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api-rest/nightclub/cover',
                 'route_identifier_name' => 'nightclub_id',
