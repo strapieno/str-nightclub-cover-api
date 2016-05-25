@@ -105,8 +105,8 @@ class NightClubRestListener implements ListenerAggregateInterface,
         /** @var $router RouteInterface */
         $router = $serviceLocator->get('Router');
         $url = $router->assemble(
-            ['user_id' => $image->getId()],
-            ['name' => 'api-rest/user/avatar', 'force_canonical' => true]
+            ['nightclub_id' => $image->getId()],
+            ['name' => 'api-rest/nightclub/cover', 'force_canonical' => true]
         );
 
         return $url . '?lastUpdate=' . $now->getTimestamp();
