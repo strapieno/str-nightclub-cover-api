@@ -40,6 +40,7 @@ class NightClubRestListener implements ListenerAggregateInterface,
 
     /**
      * @param ResourceEvent $e
+     * @return mixed
      */
     public function onPostUpdate(ResourceEvent $e)
     {
@@ -56,6 +57,7 @@ class NightClubRestListener implements ListenerAggregateInterface,
 
             $nightClub->setCover($this->getUrlFromImage($image, $serviceLocator));
             $nightClub->save();
+            $e->setParam('nightClub', $nightClub);
         }
 
         return $image;
@@ -63,6 +65,7 @@ class NightClubRestListener implements ListenerAggregateInterface,
 
     /**
      * @param ResourceEvent $e
+     * @return bool
      */
     public function onPostDelete(ResourceEvent $e)
     {
@@ -74,7 +77,10 @@ class NightClubRestListener implements ListenerAggregateInterface,
 
             $nightClub->setCover(null);
             $nightClub->save();
+            $e->setParam('nightClub', $nightClub);
         }
+
+        return true;
     }
 
     /**

@@ -91,5 +91,44 @@ class NightClubRestListenerTest extends \PHPUnit_Framework_TestCase
         $listener->setNightClubModelService($model);
         $listener->setServiceLocator($abstractLocator);
         $this->assertSame($listener->onPostUpdate($resource), $imageService);
+
+        $imageService->setSrc('test');
+        $this->assertSame($listener->onPostUpdate($resource), $imageService);
+    }
+
+    public function testOnDeleteUpdate()
+    {
+        $listener = new NightClubRestListener();
+
+        $resource = new ResourceEvent();
+        $resource->setParam('id', 'test');
+        $imageService = new  ImageEntity();
+
+
+        $sm = new ServiceManager();
+        $abstractLocator = new PluginManager();
+        $abstractLocator->setServiceLocator($sm);
+
+
+        $image = $this->getMockBuilder('Strapieno\NightClubCover\ApiTest\Asset\Image')
+            ->getMock();
+
+        $resultSet = $this->getMockBuilder('Matryoshka\Model\ResultSet\HydratingResultSet')
+            ->setMethods(['current'])
+            ->getMock();
+
+        $resultSet->method('current')
+            ->willReturn($image);
+
+        $model = $this->getMockBuilder('Strapieno\NightClub\Model\NightClubModel')
+            ->setMethods(['find'])
+            ->getMock();
+
+        $model->method('find')
+            ->willReturn($resultSet);
+
+        $listener->setNightClubModelService($model);
+        $listener->setServiceLocator($abstractLocator);
+        $this->assertTrue($listener->onPostDelete($resource));
     }
 }
