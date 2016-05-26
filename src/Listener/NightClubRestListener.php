@@ -16,6 +16,7 @@ use Zend\Mvc\Router\Http\RouteInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\Rest\ResourceEvent;
 
 /**
@@ -98,7 +99,7 @@ class NightClubRestListener implements ListenerAggregateInterface,
      * @param $serviceLocator
      * @return string
      */
-    protected function getUrlFromImage(IdentityAwareInterface $image, $serviceLocator)
+    protected function getUrlFromImage(IdentityAwareInterface $image, ServiceLocatorInterface $serviceLocator)
     {
         $now = new \DateTime();
         if ($image instanceof SrcAwareInterface && $image->getSrc()) {
