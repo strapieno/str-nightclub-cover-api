@@ -31,10 +31,7 @@ class NightClubRestListenerTest extends \PHPUnit_Framework_TestCase
                             'cover' => [
                                 'type' => 'Segment',
                                 'options' => [
-                                    'route' => '/cover',
-                                    'defaults' => [
-                                        'controller' => 'Strapieno\NightClubCover\Api\V1\Rest\Controller'
-                                    ]
+                                    'route' => '/cover'
                                 ]
                             ]
                         ]
@@ -82,6 +79,7 @@ class NightClubRestListenerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($image);
 
         $model = $this->getMockBuilder('Strapieno\NightClub\Model\NightClubModel')
+            ->disableOriginalConstructor()
             ->setMethods(['find'])
             ->getMock();
 
@@ -121,6 +119,7 @@ class NightClubRestListenerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($image);
 
         $model = $this->getMockBuilder('Strapieno\NightClub\Model\NightClubModel')
+            ->disableOriginalConstructor()
             ->setMethods(['find'])
             ->getMock();
 
