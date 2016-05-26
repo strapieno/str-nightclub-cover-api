@@ -40,8 +40,16 @@ return [
     'router' => [
         'routes' => [
             'api-rest' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api-rest',
+                ],
                 'child_routes' => [
                     'nightclub' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/nightclub',
+                        ],
                         'child_routes' => [
                             'cover' => [
                                 'type' => 'Segment',
