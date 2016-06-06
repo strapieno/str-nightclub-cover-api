@@ -25,7 +25,7 @@ class NightClubRestListenerTest extends \PHPUnit_Framework_TestCase
                     'nightclub' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/nightclub',
+                            'route' => '/nightclub[/:nightclub_id]',
                         ],
                         'child_routes' => [
                             'cover' => [
