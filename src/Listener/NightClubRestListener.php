@@ -54,7 +54,7 @@ class NightClubRestListener implements ListenerAggregateInterface,
         $nightClub = $this->getNightClubFromId($id);
 
         $image = $e->getParam('image');
-        $image->setId($id);
+
         if ($nightClub instanceof CoverAwareInterface && $nightClub instanceof ActiveRecordInterface) {
 
             $nightClub->setCover($this->getUrlFromImage($image, $serviceLocator));

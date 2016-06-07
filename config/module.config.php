@@ -103,7 +103,7 @@ return [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api-rest/nightclub/cover',
                 'route_identifier_name' => 'nightclub_id',
-                'hydrator' => 'Zend\Stdlib\Hydrator\ClassMethods',
+                'hydrator' => 'Strapieno\Utils\Hydrator\ImageBase64Hydrator',
             ],
         ],
     ],
