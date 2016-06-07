@@ -56,6 +56,7 @@ class NightClubRestListenerTest extends \PHPUnit_Framework_TestCase
         $resource->setParam('id', 'test');
         $imageService = new  ImageEntity();
         $resource->setParam('image', $imageService);
+        $imageService->setId('test');
 
         /** @var $route TreeRouteStack */
         $route = TreeRouteStack::factory($this->routeConfig);
